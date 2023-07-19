@@ -5,7 +5,6 @@
     Second argument is the output file name
 '''
 
-
 import sys
 import os.path
 import re
@@ -18,7 +17,7 @@ if __name__ == '__main__':
         exit(1)
 
     if not os.path.isfile(sys.argv[1]):
-        print(f'Missing {sys.argv[1]}', file=sys.stderr)
+        print('Missing {}'.format(sys.argv[1]), file=sys.stderr)
         exit(1)
 
     with open(sys.argv[1]) as read:
@@ -55,13 +54,15 @@ if __name__ == '__main__':
                 ordered_num = length - len(ordered)
                 # headings, lists
                 if 1 <= heading_num <= 6:
-                    line = (f'<h{heading_num}>{headings.strip()}' + f'</h{heading_num}>\n')
+                    line = '<h{}>'.format(
+                        heading_num) + headings.strip() + '</h{}>\n'.format(
+                        heading_num)
 
                 if unordered_num:
                     if not unordered_start:
                         html.write('<ul>\n')
                         unordered_start = True
-                    line = f'<li>{unordered.strip()}' + '</li>\n'
+                    line = '<li>' + unordered.strip() + '</li>\n'
                 if unordered_start and not unordered_num:
                     html.write('</ul>\n')
                     unordered_start = False
@@ -70,7 +71,7 @@ if __name__ == '__main__':
                     if not ordered_start:
                         html.write('<ol>\n')
                         ordered_start = True
-                    line = f'<li>{ordered.strip()}' + '</li>\n'
+                    line = '<li>' + ordered.strip() + '</li>\n'
                 if ordered_start and not ordered_num:
                     html.write('</ol>\n')
                     ordered_start = False
